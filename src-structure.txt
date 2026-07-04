@@ -1,0 +1,85 @@
+src/
+|
+|-- assets/
+|   |-- images/
+|   |   `-- .gitkeep
+|   |-- icons/
+|   |   `-- .gitkeep
+|   |-- fonts/
+|   |   `-- .gitkeep
+|   `-- styles/
+|       `-- global.css
+|
+|-- components/
+|   |-- common/
+|   |   |-- Button.tsx
+|   |   |-- Input.tsx
+|   |   |-- Loader.tsx
+|   |   `-- Modal.tsx
+|   |-- layout/
+|   |   |-- Navbar.tsx
+|   |   |-- Sidebar.tsx
+|   |   |-- Footer.tsx
+|   |   `-- Header.tsx
+|   `-- ui/
+|       |-- Card.tsx
+|       |-- Table.tsx
+|       `-- Pagination.tsx
+|
+|-- pages/
+|   |-- Home/
+|   |   `-- HomePage.tsx
+|   |-- Auth/
+|   |   |-- Login.tsx
+|   |   |-- Register.tsx
+|   |   `-- ForgotPassword.tsx
+|   |-- Dashboard/
+|   |   `-- Dashboard.tsx
+|   |-- Users/
+|   |   |-- UserList.tsx
+|   |   |-- UserDetails.tsx
+|   |   `-- AddUser.tsx
+|   `-- Profile/
+|       `-- Profile.tsx
+|
+|-- layouts/
+|   |-- MainLayout.tsx
+|   `-- AuthLayout.tsx
+|
+|-- routes/
+|   |-- AppRoutes.tsx
+|   |-- PrivateRoute.tsx
+|   `-- PublicRoute.tsx
+|
+|-- services/
+|   |-- api.ts
+|   |-- auth.service.ts
+|   `-- user.service.ts
+|
+|-- hooks/
+|   |-- useAuth.ts
+|   `-- useFetch.ts
+|
+|-- context/
+|   |-- AuthContext.tsx
+|   `-- ThemeContext.tsx
+|
+|-- store/
+|   |-- store.ts
+|   `-- slices/
+|       |-- authSlice.ts
+|       `-- userSlice.ts
+|
+|-- utils/
+|   |-- constants.ts
+|   |-- helpers.ts
+|   |-- validation.ts
+|   `-- storage.ts
+|
+|-- config/
+|   `-- axios.ts
+|
+|-- App.css
+|-- App.tsx
+|-- main.tsx
+`-- vite-env.d.ts

@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom'
               <Link to="/" className="border-b-2 border-transparent pb-1 text-white text-base font-medium transition duration-300 focus:border-gray-300 focus:text-[#e75b1e] focus:outline-none">
                 Home
               </Link>
-              <Link to="/about" className="border-b-2 border-transparent pb-1 text-white text-base font-medium transition duration-300 focus:border-gray-300 focus:text-[#e75b1e] focus:outline-none">
+              <Link to="/food-categories" className="border-b-2 border-transparent pb-1 text-white text-base font-medium transition duration-300 focus:border-gray-300 focus:text-[#e75b1e] focus:outline-none">
                 Food Categories
               </Link>
               <Link to="/contact" className="border-b-2 border-transparent pb-1 text-white text-base font-medium transition duration-300 focus:border-gray-300 focus:text-[#e75b1e] focus:outline-none">

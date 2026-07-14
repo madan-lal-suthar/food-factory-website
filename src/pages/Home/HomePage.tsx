@@ -214,22 +214,22 @@ const restaurants = [
     name: 'Cafe Bloom',
     cuisine: 'Cafe, Desserts',
   },
-  {
-    name: 'Rustic Oven',
-    cuisine: 'Pizza, Italian',
-  },
-  {
-    name: 'Spice Route',
-    cuisine: 'Asian, Fusion',
-  },
-  {
-    name: 'The Vegan Plate',
-    cuisine: 'Vegan, Healthy',
-  },
-  {
-    name: 'Midnight Meals',
-    cuisine: 'Late Night, Fast Food',
-  },
+  // {
+  //   name: 'Rustic Oven',
+  //   cuisine: 'Pizza, Italian',
+  // },
+  // {
+  //   name: 'Spice Route',
+  //   cuisine: 'Asian, Fusion',
+  // },
+  // {
+  //   name: 'The Vegan Plate',
+  //   cuisine: 'Vegan, Healthy',
+  // }, 
+  // {
+  //   name: 'Midnight Meals',
+  //   cuisine: 'Late Night, Fast Food',
+  // },
 ].map((restaurant) => ({
   ...restaurant,
   image: restaurantImages[Math.floor(Math.random() * restaurantImages.length)],
@@ -349,17 +349,29 @@ const HomePage = () => {
 
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {visibleRestaurants.map((restaurant) => (
-            <div
-              key={restaurant.name}
-              className="group relative h-80 overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-xl"
-              style={{ backgroundImage: `url(${restaurant.image})` }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent transition duration-300 group-hover:from-black/85" />
-              <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                <h3 className="text-xl font-semibold">{restaurant.name}</h3>
-                <p className="mt-1 text-sm font-medium text-gray-200">{restaurant.cuisine}</p>
-              </div>
-            </div>
+                    <div className="h-90 group relative overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat shadow-md transition duration-300            hover:-translate-y-1 hover:shadow-xl">
+                        <div className="group relative h-60 overflow-hidden rounded-t-lg bg-cover bg-center bg-no-repeat shadow-md"
+                        style={{ backgroundImage: `url(${restaurant.image})` }}
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent transition duration-300 group-hover:from-black/85" />
+                            <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+                                <h3 className="text-xl font-semibold">{restaurant.name}</h3>
+                                <p className="mt-1 text-sm font-medium text-gray-200">{restaurant.cuisine}</p>
+                            </div>
+                        </div>
+                    </div>                
+                
+            // <div
+            //   key={restaurant.name}
+            //   className="group relative h-80 overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+            //   style={{ backgroundImage: `url(${restaurant.image})` }}
+            // >
+            //   <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent transition duration-300 group-hover:from-black/85" />
+            //   <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+            //     <h3 className="text-xl font-semibold">{restaurant.name}</h3>
+            //     <p className="mt-1 text-sm font-medium text-gray-200">{restaurant.cuisine}</p>
+            //   </div>
+            // </div>
           ))}
         </div>
 

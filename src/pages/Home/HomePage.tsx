@@ -1,9 +1,13 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Autoplay, Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import type { RootState } from '../../.../../redux/store'
+import { fetchRestaurants } from '../../redux/thunks/restaurantThunk'
+import type { RestaurantState } from '../../redux/types/restaurantTypes'
 import carouselOne from '../../assets/images/carousel-1.jpg'
 import carouselTwo from '../../assets/images/carousel-2.jpg'
 import carouselThree from '../../assets/images/carousel-3.jpg'
@@ -26,220 +30,17 @@ const carouselImages = [
   },
 ]
 
-const restaurantImages = [
-  'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1559329007-40df8a9345d8?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1560624052-449f5ddf0c31?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1497644083578-611b798c60f3?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?auto=format&fit=crop&w=900&q=80',
-]
-
-const restaurants = [
-  {
-    name: 'The Spice Table',
-    cuisine: 'North Indian, Tandoor',
-  },
-  {
-    name: 'Urban Bites',
-    cuisine: 'Burgers, Fast Food',
-  },
-  {
-    name: 'Casa Grill',
-    cuisine: 'Continental, Pizza',
-  },
-  {
-    name: 'Green Bowl',
-    cuisine: 'Healthy Food, Salads',
-  },
-  {
-    name: 'Sky Terrace',
-    cuisine: 'Outdoor Dining',
-  },
-  {
-    name: 'Golden Lounge',
-    cuisine: 'Fine Dining, Bar',
-  },
-  {
-    name: 'Garden House',
-    cuisine: 'Cafe, Desserts',
-  },
-  {
-    name: 'Royal Dine',
-    cuisine: 'Luxury Dining',
-  },
-  {
-    name: 'Olive Courtyard',
-    cuisine: 'Mediterranean, Salads',
-  },
-  {
-    name: 'Firewood Kitchen',
-    cuisine: 'Italian, Wood Fired Pizza',
-  },
-  {
-    name: 'Noodle Street',
-    cuisine: 'Chinese, Asian',
-  },
-  {
-    name: 'Bombay Bistro',
-    cuisine: 'Indian, Street Food',
-  },
-  {
-    name: 'Blue Orchid',
-    cuisine: 'Thai, Seafood',
-  },
-  {
-    name: 'The Breakfast Club',
-    cuisine: 'Cafe, Breakfast',
-  },
-  {
-    name: 'Charcoal House',
-    cuisine: 'Barbecue, Grill',
-  },
-  {
-    name: 'Sweet Crumbs',
-    cuisine: 'Bakery, Desserts',
-  },
-  {
-    name: 'Coastal Curry',
-    cuisine: 'South Indian, Seafood',
-  },
-  {
-    name: 'Harvest Table',
-    cuisine: 'Farm Fresh, Healthy',
-  },
-  {
-    name: 'Saffron Room',
-    cuisine: 'Mughlai, North Indian',
-  },
-  {
-    name: 'Pasta Palace',
-    cuisine: 'Italian, Continental',
-  },
-  {
-    name: 'Taco Town',
-    cuisine: 'Mexican, Fast Food',
-  },
-  {
-    name: 'Zen Sushi',
-    cuisine: 'Japanese, Sushi',
-  },
-  {
-    name: 'Punjabi Rasoi',
-    cuisine: 'Punjabi, Tandoor',
-  },
-  {
-    name: 'The Burger Lab',
-    cuisine: 'Burgers, Shakes',
-  },
-  {
-    name: 'Curry Leaf',
-    cuisine: 'Kerala, South Indian',
-  },
-  {
-    name: 'Moonlight Cafe',
-    cuisine: 'Cafe, Beverages',
-  },
-  {
-    name: 'Ember & Oak',
-    cuisine: 'Steakhouse, Grill',
-  },
-  {
-    name: 'Lotus Garden',
-    cuisine: 'Vegetarian, Indian',
-  },
-  {
-    name: 'Biryani Junction',
-    cuisine: 'Biryani, Hyderabadi',
-  },
-  {
-    name: 'The Dessert Bar',
-    cuisine: 'Desserts, Ice Cream',
-  },
-  {
-    name: 'Citrus Social',
-    cuisine: 'Global, Lounge',
-  },
-  {
-    name: 'Rooftop Republic',
-    cuisine: 'Outdoor Dining, Continental',
-  },
-  {
-    name: 'Mango Grove',
-    cuisine: 'Indian, Vegetarian',
-  },
-  {
-    name: 'The Pasta Room',
-    cuisine: 'Italian, Pasta',
-  },
-  {
-    name: 'Seoul Station',
-    cuisine: 'Korean, Asian',
-  },
-  {
-    name: 'Grain & Greens',
-    cuisine: 'Healthy Food, Bowls',
-  },
-  {
-    name: 'The Curry Pot',
-    cuisine: 'Indian, Curry',
-  },
-  {
-    name: 'Bake Street',
-    cuisine: 'Bakery, Cafe',
-  },
-  {
-    name: 'Smoke Yard',
-    cuisine: 'Barbecue, American',
-  },
-  {
-    name: 'Ocean Pearl',
-    cuisine: 'Seafood, Coastal',
-  },
-  {
-    name: 'Velvet Table',
-    cuisine: 'Fine Dining, Continental',
-  },
-  {
-    name: 'The Wrap House',
-    cuisine: 'Wraps, Fast Food',
-  },
-  {
-    name: 'Masala Market',
-    cuisine: 'Indian, Street Food',
-  },
-  {
-    name: 'Cafe Bloom',
-    cuisine: 'Cafe, Desserts',
-  },
-  // {
-  //   name: 'Rustic Oven',
-  //   cuisine: 'Pizza, Italian',
-  // },
-  // {
-  //   name: 'Spice Route',
-  //   cuisine: 'Asian, Fusion',
-  // },
-  // {
-  //   name: 'The Vegan Plate',
-  //   cuisine: 'Vegan, Healthy',
-  // }, 
-  // {
-  //   name: 'Midnight Meals',
-  //   cuisine: 'Late Night, Fast Food',
-  // },
-].map((restaurant) => ({
-  ...restaurant,
-  image: restaurantImages[Math.floor(Math.random() * restaurantImages.length)],
-}))
-
 const restaurantsPerPage = 16
 
 const HomePage = () => {
+  const dispatch = useAppDispatch()
+  const { items: restaurants, loading, error } = useAppSelector((state: RootState) => state as RestaurantState)
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
+
+  useEffect(() => {
+    dispatch(fetchRestaurants() as never)
+  }, [dispatch])
 
   const filteredRestaurants = useMemo(() => {
     const searchValue = searchTerm.trim().toLowerCase()
@@ -248,10 +49,10 @@ const HomePage = () => {
       return restaurants
     }
 
-    return restaurants.filter((restaurant) =>
-      `${restaurant.name} ${restaurant.cuisine}`.toLowerCase().includes(searchValue),
+    return restaurants.filter((restaurant: { name: string; cuisine: string; location: string; type: string }) =>
+      `${restaurant.name} ${restaurant.cuisine} ${restaurant.location} ${restaurant.type}`.toLowerCase().includes(searchValue),
     )
-  }, [searchTerm])
+  }, [restaurants, searchTerm])
 
   const totalPages = Math.max(1, Math.ceil(filteredRestaurants.length / restaurantsPerPage))
   const startIndex = (currentPage - 1) * restaurantsPerPage
@@ -266,7 +67,7 @@ const HomePage = () => {
         pagination={{ clickable: true }}
         autoplay={{ delay: 3500, disableOnInteraction: false }}
         loop
-        className="h-[calc(100vh-4rem)] min-h-[520px] w-full"
+        className="h-[calc(100vh-4rem)] min-h-130 w-full"
       >
         {carouselImages.map((slide) => (
           <SwiperSlide key={slide.title}>
@@ -347,35 +148,40 @@ const HomePage = () => {
           />
         </div>
 
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {visibleRestaurants.map((restaurant) => (
-                    <div className="h-90 group relative overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat shadow-md transition duration-300            hover:-translate-y-1 hover:shadow-xl">
-                        <div className="group relative h-60 overflow-hidden rounded-t-lg bg-cover bg-center bg-no-repeat shadow-md"
-                        style={{ backgroundImage: `url(${restaurant.image})` }}
-                        >
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent transition duration-300 group-hover:from-black/85" />
-                            <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                                <h3 className="text-xl font-semibold">{restaurant.name}</h3>
-                                <p className="mt-1 text-sm font-medium text-gray-200">{restaurant.cuisine}</p>
-                            </div>
-                        </div>
-                    </div>                
-                
-            // <div
-            //   key={restaurant.name}
-            //   className="group relative h-80 overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-xl"
-            //   style={{ backgroundImage: `url(${restaurant.image})` }}
-            // >
-            //   <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent transition duration-300 group-hover:from-black/85" />
-            //   <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-            //     <h3 className="text-xl font-semibold">{restaurant.name}</h3>
-            //     <p className="mt-1 text-sm font-medium text-gray-200">{restaurant.cuisine}</p>
-            //   </div>
-            // </div>
-          ))}
-        </div>
+        {loading && (
+          <div className="mt-10 rounded-lg border border-gray-200 bg-gray-50 px-5 py-8 text-center text-zinc-600">
+            Loading restaurants...
+          </div>
+        )}
 
-        {visibleRestaurants.length === 0 && (
+        {!loading && error && (
+          <div className="mt-10 rounded-lg border border-red-200 bg-red-50 px-5 py-8 text-center text-red-600">
+            {error}
+          </div>
+        )}
+
+        {!loading && !error && (
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {visibleRestaurants.map((restaurant: { name: string; image: string; isShopOn: number; cuisine: string; location: string; type: string }) => (
+              <div key={restaurant.name} className="group overflow-hidden rounded-lg bg-white shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+                <div className="h-60 overflow-hidden bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${restaurant.image})` }} />
+                <div className="p-5">
+                  <div className="flex items-center justify-between gap-2">
+                    <h3 className="text-lg font-semibold text-zinc-900">{restaurant.name}</h3>
+                    <span className={`rounded-full px-2 py-1 text-xs font-semibold ${restaurant.isShopOn ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
+                      {restaurant.isShopOn ? 'Open' : 'Closed'}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-sm font-medium text-gray-600">{restaurant.cuisine}</p>
+                  <p className="mt-1 text-sm text-zinc-500">{restaurant.location}</p>
+                  <p className="mt-1 text-sm text-zinc-500">{restaurant.type}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {!loading && !error && visibleRestaurants.length === 0 && (
           <div className="mt-10 rounded-lg border border-gray-200 bg-gray-50 px-5 py-8 text-center text-zinc-600">
             No restaurants found.
           </div>
